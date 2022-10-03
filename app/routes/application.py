@@ -1,41 +1,26 @@
-from sqlalchemy.sql import text
 from flask import request, jsonify
 from flask_cors import cross_origin
 from app import app, db_pgl
 from app.utils.response import bad_request, bad_request_schema, non_autorhize
 
+from app.controllers.nsearchController import nsearchController
 
-# Se agrega auth
-from app.middlewares.auth_freelanders import AuthFreelanders
-
-# Modulo para validacion de schema de datos
-from flask_expects_json import expects_json
-
-EXAMPLESCHEMA = ExampleSchema()
+NSEARCH = nsearchController()
 
 
-schema_example = EXAMPLESCHEMA.schema_example()
-
-class Application:
-    @expects_json(schema_brief, force=True)
-    @app.errorhandler(400)
-    def error_400(error):
-        try:
-            return bad_request_schema(error)
-        except Exception as e:
-            print(e)
-    
+class Application:   
     @app.route('/')
     @app.route('/index')
     def index():
-        return 'Example Backend'
+        return 'Nsearch Index plain'
     
-    @app.route("/example/<param>", methods=["POST"])
-    @expects_json(schema_example, force=True)
+    @app.route("/nsearch/category", methods=["GET"])
     @cross_origin()
-    def update_brief(param):
-        valid = AuthFreelanders.verify_token(request.headers.get("Authorization"))
-        if valid is False:
-            return non_autorhize("Token is required")
-        data = request.get_json()
-        pass
+    def categories():
+        return NSEARCH.get_categories()
+    
+    @app.route("/nsearch/category/<category>", methods=["GET"])
+    @cross_origin()
+    def category_modules(category):
+        return NSEARCH.get_modules_from_category(category)
+
