@@ -4,8 +4,11 @@ from datetime import datetime, timedelta
 import urllib.request
 from urllib.parse import urlparse, urljoin
 from bs4 import BeautifulSoup
-import requests, validators, json, uuid, pathlib, os
+import requests, json, uuid, pathlib, os
 from app.models.category import Category
+from app.controllers.nsearchModule import nsearchModule
+
+
 
 from app import app, db_pgl as db
 
@@ -18,11 +21,10 @@ from app.utils.response import (
 )
 
 DOMAIN = "https://nmap.org/nsedoc"
-
-class nsearchController:
+MODULE = nsearchModule();
+class nsearchCategory:
     def get_categories(self):
         try:
-            
             categories = self.get_category_from_page("categories/", "dl > dt", DOMAIN)
             if categories is not None:
                 insert_cat = list()
@@ -66,6 +68,7 @@ class nsearchController:
         module = self.get_modules_from_page(module_name, "dl.list > dt", DOMAIN)
         try:
             if module is not None:
+                print(module,'Module')
                 insert_cat = list()
                 for mdl in module:
                     categroy = Category(mdl["text"], mdl["url"])
@@ -91,35 +94,11 @@ class nsearchController:
             specific_element = soup.select(find)
             for ct in specific_element:
                 for tag in ct.find_all("a", href=True):
-                    category_data = dict(url=tag.get("href"), text=tag.text)
+                    category_data = dict(url=tag.get("href"), text=tag.text.strip())
                     category_data["url"] = category_data["url"].replace("..", domain)
-                    module_data = self.get_module_data_from_page(category_data["url"],category_data["text"])
-                    print(module_data,"Urls1")
+                    MODULE.get_module_data_from_page(category_data["url"],category_data["text"])
                     sys.exit(0)
-                    # modules.append(category_data)
-                break
-            return modules
-        except Exception as e:
-            print(e, "error from page")
-            return modules
-    
-    def get_module_data_from_page(self, requested_url, name):
-        print(requested_url,name.strip())
-        modules = dict()
-        try:
-            source = requests.get(f"{requested_url}").text
-            soup = BeautifulSoup(source, "html.parser")
-            content_summary = soup.select("div#nse-content p:nth-of-type(1)")
-            for t in content_summary:
-                data = t.text.strip()
-                summary_basic = data.strip()
-                print(summary_basic,'Los datos1')
-
-                # if len(data) > 0:
-                #     for i in range(data):
-                #         print(i.strip(),'Esta data1')
-
-            
+                    modules.append(category_data)
             return modules
         except Exception as e:
             print(e, "error from page")

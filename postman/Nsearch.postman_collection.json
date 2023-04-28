@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "e923d0f4-1aa7-45b4-be9d-5c3bc7b5db12",
+		"name": "Nsearch",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get categories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/nsearch/category",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"nsearch",
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get categories modules",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/nsearch/category/auth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"nsearch",
+						"category",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

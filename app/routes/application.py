@@ -3,9 +3,9 @@ from flask_cors import cross_origin
 from app import app, db_pgl
 from app.utils.response import bad_request, bad_request_schema, non_autorhize
 
-from app.controllers.nsearchController import nsearchController
+from app.controllers.nsearchCategory import nsearchCategory
 
-NSEARCH = nsearchController()
+NSEARCH = nsearchCategory()
 
 
 class Application:   
@@ -17,10 +17,12 @@ class Application:
     @app.route("/nsearch/category", methods=["GET"])
     @cross_origin()
     def categories():
+        print('Entra aca 1 ')
         return NSEARCH.get_categories()
     
     @app.route("/nsearch/category/<category>", methods=["GET"])
     @cross_origin()
     def category_modules(category):
+        print(category,'Entra aca module1')
         return NSEARCH.get_modules_from_category(category)
 

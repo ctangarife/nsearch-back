@@ -3,7 +3,9 @@ import sys
 sys.path.append("../")
 from app.models.author import Author
 from app.models.category import Category
-from app.models.scripts import Scripts
+from app.models.script import Script
+from app.models.script_data import ScriptData
+from app.models.script_x_category import ScriptXCategory
 
 from app import db_pgl as db
 
