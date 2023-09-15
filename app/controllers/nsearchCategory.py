@@ -96,8 +96,8 @@ class nsearchCategory:
                 for tag in ct.find_all("a", href=True):
                     category_data = dict(url=tag.get("href"), text=tag.text.strip())
                     category_data["url"] = category_data["url"].replace("..", domain)
-                    MODULE.get_module_data_from_page(category_data["url"],category_data["text"])
-                    sys.exit(0)
+                    MODULE.get_module_data_from_page(category_data["url"])
+                    #sys.exit(0)
                     modules.append(category_data)
             return modules
         except Exception as e:

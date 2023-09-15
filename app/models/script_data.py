@@ -25,12 +25,14 @@ class ScriptData(db.Model):
         self,
         id_script=None,
         scipt_type=None,
+        description=None,
         argument=None,
         usage=None,
         output=None,
     ):
         self.id_script = id_script
         self.scipt_type = scipt_type
+        self.decription = description
         self.argument = argument
         self.usage = usage
         self.output = output
